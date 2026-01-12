@@ -161,10 +161,8 @@ export default function () {
 	};
 
 	const isMaxRecordingLimitEnabled = () => {
-		// Only enforce the limit on instant mode.
-		// We enforce it on studio mode when exporting.
-		if (state().variant === "countdown") return false;
-		return !auth.data?.subscriptionData?.hasRecordingsLimit;
+		// Recording limit disabled - unlimited recording enabled
+		return false;
 	};
 
 	let aborted = false;
