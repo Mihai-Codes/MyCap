@@ -2312,8 +2312,8 @@ pub async fn run(recording_logging_handle: LoggingHandle, logs_dir: PathBuf) {
 
             #[cfg(target_os = "macos")]
             {
-                use tauri::menu::{Menu, Submenu, PredefinedMenuItem};
-                
+                use tauri::menu::{Menu, PredefinedMenuItem, Submenu};
+
                 let app_menu = Submenu::new(&app, "Cap", true).ok();
                 if let Some(app_menu) = app_menu {
                     let _ = app_menu.append(&PredefinedMenuItem::about(&app, None, None).unwrap());
@@ -2325,7 +2325,7 @@ pub async fn run(recording_logging_handle: LoggingHandle, logs_dir: PathBuf) {
                     let _ = app_menu.append(&PredefinedMenuItem::show_all(&app, None).unwrap());
                     let _ = app_menu.append(&PredefinedMenuItem::separator(&app).unwrap());
                     let _ = app_menu.append(&PredefinedMenuItem::quit(&app, None).unwrap());
-                    
+
                     let menu = Menu::new(&app).ok();
                     if let Some(menu) = menu {
                         let _ = menu.append(&app_menu);
