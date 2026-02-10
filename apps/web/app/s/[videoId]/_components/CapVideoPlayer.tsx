@@ -127,12 +127,15 @@ export function CapVideoPlayer({
 								? response.url
 								: urlWithTimestamp;
 
+							const urlObj = new URL(finalUrl);
+							const hostname = urlObj.hostname;
+
 							// Check if the resolved URL is from a CORS-incompatible service
-							const isCloudflareR2 = finalUrl.includes(
-								".r2.cloudflarestorage.com",
-							);
+							const isCloudflareR2 = hostname.endsWith(".r2.cloudflarestorage.com");
 							const isS3 =
-								finalUrl.includes(".s3.") || finalUrl.includes("amazonaws.com");
+								hostname.includes(".s3.") ||
+								hostname.endsWith("amazonaws.com") ||
+								hostname === "s3.amazonaws.com";
 							const isCorsIncompatible = isCloudflareR2 || isS3;
 
 							let supportsCrossOrigin = enableCrossOrigin;
@@ -345,7 +348,9 @@ export function CapVideoPlayer({
 				captionTrack.activeCues.length > 0
 			) {
 				const cue = captionTrack.activeCues[0] as VTTCue;
-				const plainText = cue.text.replace(/<[^>]*>/g, "");
+				// Safer HTML stripping using DOMParser
+				const doc = new DOMParser().parseFromString(cue.text, "text/html");
+				const plainText = doc.body.textContent || "";
 				setCurrentCue(plainText);
 			} else {
 				setCurrentCue("");

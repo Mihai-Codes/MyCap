@@ -194,7 +194,8 @@ export default function TargetCard(props: TargetCardProps) {
 }
 
 function escapeRegExp(value: string) {
-	return value.replace(/[\^$*+?.()|[\]{}-]/g, "\\$&");
+	// MDN recommended escape for regex special characters
+	return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
 export function TargetCardSkeleton(props: { class?: string }) {

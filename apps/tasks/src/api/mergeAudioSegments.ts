@@ -4,7 +4,26 @@ import fs from "fs";
 
 const router = express.Router();
 
+const rateLimitMap = new Map<string, number>();
+
 router.post<{}>("/", async (req, res) => {
+	const ip = req.ip || "unknown";
+	const now = Date.now();
+	const lastRequest = rateLimitMap.get(ip) || 0;
+
+	if (now - lastRequest < 1000) { // 1 request per second
+		res.status(429).json({ response: "FAILED", error: "Too many requests" });
+		return;
+	}
+	rateLimitMap.set(ip, now);
+
+	// Clean up old entries periodically
+	if (rateLimitMap.size > 1000) {
+		for (const [key, time] of rateLimitMap.entries()) {
+			if (now - time > 60000) rateLimitMap.delete(key);
+		}
+	}
+
 	const body = req.body;
 
 	if (

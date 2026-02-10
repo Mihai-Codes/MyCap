@@ -130,7 +130,10 @@ export const POST = async (req: Request) => {
 	} catch (err: unknown) {
 		const message = err instanceof Error ? err.message : String(err);
 		console.log(`❌ Error message: ${message}`);
-		return new Response(`Webhook Error: ${message}`, { status: 400 });
+		return new Response(`Webhook Error: ${message}`, {
+			status: 400,
+			headers: { "Content-Type": "text/plain" },
+		});
 	}
 
 	if (relevantEvents.has(event.type)) {
@@ -455,11 +458,15 @@ export const POST = async (req: Request) => {
 				'Webhook error: "Webhook handler failed. View logs."',
 				{
 					status: 400,
+					headers: { "Content-Type": "text/plain" },
 				},
 			);
 		}
 	}
 
 	console.log(`Unrecognised event: ${event.type}`);
-	return new Response(`Unrecognised event: ${event.type}`, { status: 400 });
+	return new Response(`Unrecognised event: ${event.type}`, {
+		status: 400,
+		headers: { "Content-Type": "text/plain" },
+	});
 };
