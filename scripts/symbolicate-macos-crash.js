@@ -36,6 +36,12 @@ async function main() {
 		if (!loadAddressOrSymbol.startsWith("0x")) continue;
 		const loadAddress = loadAddressOrSymbol;
 
+		// Validate addresses to prevent command injection
+		if (!/^[0-9a-fA-Fx]+$/.test(address) || !/^[0-9a-fA-Fx]+$/.test(loadAddress)) {
+			console.warn(`Skipping invalid address: ${address} or ${loadAddress}`);
+			continue;
+		}
+
 		const symbol = await exec(
 			`atos -o "${targetDir}/Cap.dSYM" -l ${loadAddress} ${address}`,
 		).then((s) => s.stdout.trim());
