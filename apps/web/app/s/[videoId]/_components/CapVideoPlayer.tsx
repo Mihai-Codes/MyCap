@@ -344,10 +344,7 @@ export function CapVideoPlayer({
 		let captionTrack: TextTrack | null = null;
 
 		const handleCueChange = (): void => {
-			if (
-				captionTrack?.activeCues &&
-				captionTrack.activeCues.length > 0
-			) {
+			if (captionTrack?.activeCues && captionTrack.activeCues.length > 0) {
 				const cue = captionTrack.activeCues[0] as VTTCue;
 				// Safer HTML stripping using DOMParser
 				const doc = new DOMParser().parseFromString(cue.text, "text/html");

@@ -1,12 +1,12 @@
+import fs from "node:fs";
 import express from "express";
 import ffmpeg from "fluent-ffmpeg";
-import fs from "node:fs";
 
 const router = express.Router();
 
 const rateLimitMap = new Map<string, number>();
 
-router.post<{}>("/", async (req, res) => {
+router.post("/", async (req: express.Request, res: express.Response) => {
 	const ip = req.ip || "unknown";
 	const now = Date.now();
 	const lastRequest = rateLimitMap.get(ip) || 0;
