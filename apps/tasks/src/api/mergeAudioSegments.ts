@@ -11,7 +11,9 @@ router.post<{}>("/", async (req, res) => {
 		!body.segments ||
 		body.segments.length === 0 ||
 		!body.uploadUrl ||
-		!body.videoId
+		!body.videoId ||
+		!/^[a-zA-Z0-9_-]+$/.test(body.videoId) || // Prevent path traversal
+		!/^https?:\/\//.test(body.uploadUrl) // Basic SSRF protection
 	) {
 		res.status(400).json({ response: "FAILED" });
 		return;
@@ -26,6 +28,10 @@ router.post<{}>("/", async (req, res) => {
 	const filePath = `./output/merged_${body.videoId}.mp3`;
 
 	for (const url of body.segments) {
+		if (typeof url !== 'string' || !/^https?:\/\//.test(url)) {
+			res.status(400).json({ response: "FAILED", error: "Invalid segment URL" });
+			return;
+		}
 		command.input(url);
 	}
 
