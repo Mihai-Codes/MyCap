@@ -35,7 +35,12 @@ async function main() {
 		if (!releaseFile) throw new Error(`No binary found at ${dirs.join(", ")}`);
 
 		// Validate paths to prevent command injection
-		if (releaseFile.includes('"') || releaseFile.includes('$') || releaseFile.includes('`') || releaseFile.includes('\\')) {
+		if (
+			releaseFile.includes('"') ||
+			releaseFile.includes("$") ||
+			releaseFile.includes("`") ||
+			releaseFile.includes("\\")
+		) {
 			throw new Error("Invalid characters in release filename");
 		}
 

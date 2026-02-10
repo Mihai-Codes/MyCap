@@ -1,6 +1,6 @@
 import express from "express";
 import ffmpeg from "fluent-ffmpeg";
-import fs from "fs";
+import fs from "node:fs";
 
 const router = express.Router();
 
@@ -11,7 +11,8 @@ router.post<{}>("/", async (req, res) => {
 	const now = Date.now();
 	const lastRequest = rateLimitMap.get(ip) || 0;
 
-	if (now - lastRequest < 1000) { // 1 request per second
+	if (now - lastRequest < 1000) {
+		// 1 request per second
 		res.status(429).json({ response: "FAILED", error: "Too many requests" });
 		return;
 	}
@@ -47,8 +48,10 @@ router.post<{}>("/", async (req, res) => {
 	const filePath = `./output/merged_${body.videoId}.mp3`;
 
 	for (const url of body.segments) {
-		if (typeof url !== 'string' || !/^https?:\/\//.test(url)) {
-			res.status(400).json({ response: "FAILED", error: "Invalid segment URL" });
+		if (typeof url !== "string" || !/^https?:\/\//.test(url)) {
+			res
+				.status(400)
+				.json({ response: "FAILED", error: "Invalid segment URL" });
 			return;
 		}
 		command.input(url);
@@ -56,8 +59,8 @@ router.post<{}>("/", async (req, res) => {
 
 	command
 		.audioCodec("libmp3lame")
-		.on("error", (err: any) => {
-			console.log("An error occurred: " + err.message);
+		.on("error", (err: unknown) => {
+			console.log(`An error occurred: ${(err as Error).message}`);
 		})
 		.on("end", async () => {
 			console.log("Merging finished!");

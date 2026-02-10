@@ -65,10 +65,7 @@ export async function transcribeVideo(
 		video.settings?.disableTranscript ??
 		result.orgSettings?.disableTranscript
 	) {
-		console.log(
-			"[transcribeVideo] Transcription disabled for video:",
-			videoId,
-		);
+		console.log("[transcribeVideo] Transcription disabled for video:", videoId);
 		try {
 			await db()
 				.update(videos)

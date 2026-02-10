@@ -199,7 +199,7 @@ pub struct ShadowConfiguration {
     pub opacity: f32, // Shadow opacity (0-100)
     pub blur: f32,    // Shadow blur amount (0-100)
     #[serde(default)]
-    pub inset: bool,  // If true, render shadow inside the frame (inner shadow)
+    pub inset: bool, // If true, render shadow inside the frame (inner shadow)
 }
 
 #[derive(Type, Serialize, Deserialize, Clone, Debug, PartialEq)]

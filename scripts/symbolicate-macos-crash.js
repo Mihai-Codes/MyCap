@@ -37,7 +37,10 @@ async function main() {
 		const loadAddress = loadAddressOrSymbol;
 
 		// Validate addresses to prevent command injection
-		if (!/^[0-9a-fA-Fx]+$/.test(address) || !/^[0-9a-fA-Fx]+$/.test(loadAddress)) {
+		if (
+			!/^[0-9a-fA-Fx]+$/.test(address) ||
+			!/^[0-9a-fA-Fx]+$/.test(loadAddress)
+		) {
 			console.warn(`Skipping invalid address: ${address} or ${loadAddress}`);
 			continue;
 		}

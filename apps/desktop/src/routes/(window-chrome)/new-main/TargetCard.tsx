@@ -150,7 +150,7 @@ export default function TargetCard(props: TargetCardProps) {
 					}
 				>
 					<img
-						src={thumbnailSrc()!}
+						src={thumbnailSrc() ?? ""}
 						alt={`${
 							local.variant === "display" ? "Display" : "Window"
 						} preview for ${label()}`}
@@ -162,7 +162,7 @@ export default function TargetCard(props: TargetCardProps) {
 				<Show when={appIconSrc()}>
 					<div class="flex absolute inset-0 justify-center items-center pointer-events-none bg-black/45">
 						<img
-							src={appIconSrc()!}
+							src={appIconSrc() ?? ""}
 							alt={`${label()} icon`}
 							class="h-16 w-16 max-h-[55%] max-w-[55%] rounded-lg border border-black/20 object-contain shadow-lg shadow-black/30"
 							draggable={false}

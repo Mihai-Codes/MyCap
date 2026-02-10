@@ -28,10 +28,7 @@ export async function generateAiMetadata(
 		.where(eq(videos.id, videoId));
 
 	if (videoQuery.length === 0 || !videoQuery[0]?.video) {
-		console.error(
-			"[generateAiMetadata] Video not found in database:",
-			videoId,
-		);
+		console.error("[generateAiMetadata] Video not found in database:", videoId);
 		return;
 	}
 

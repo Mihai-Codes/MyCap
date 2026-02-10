@@ -131,7 +131,9 @@ export function CapVideoPlayer({
 							const hostname = urlObj.hostname;
 
 							// Check if the resolved URL is from a CORS-incompatible service
-							const isCloudflareR2 = hostname.endsWith(".r2.cloudflarestorage.com");
+							const isCloudflareR2 = hostname.endsWith(
+								".r2.cloudflarestorage.com",
+							);
 							const isS3 =
 								hostname.includes(".s3.") ||
 								hostname.endsWith("amazonaws.com") ||
@@ -343,8 +345,7 @@ export function CapVideoPlayer({
 
 		const handleCueChange = (): void => {
 			if (
-				captionTrack &&
-				captionTrack.activeCues &&
+				captionTrack?.activeCues &&
 				captionTrack.activeCues.length > 0
 			) {
 				const cue = captionTrack.activeCues[0] as VTTCue;
@@ -481,7 +482,7 @@ export function CapVideoPlayer({
 			try {
 				ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 				return canvas.toDataURL("image/jpeg", 0.8);
-			} catch (error) {
+			} catch (_error) {
 				return `https://placeholder.pics/svg/224x128/dc2626/ffffff/Error`;
 			}
 		}
