@@ -1,4 +1,13 @@
+const isValidDomain = (domain: string) => {
+	// Basic domain validation: alphanumeric, hyphens, and dots
+	// Prevents path traversal and other injection attacks
+	return /^[a-zA-Z0-9.-]+$/.test(domain) && !domain.includes("..");
+};
+
 export const getConfigResponse = async (domain: string) => {
+	if (!isValidDomain(domain)) {
+		throw new Error("Invalid domain format");
+	}
 	const response = await fetch(
 		`https://api.vercel.com/v6/domains/${domain.toLowerCase()}/config?teamId=${
 			process.env.VERCEL_TEAM_ID
@@ -16,6 +25,9 @@ export const getConfigResponse = async (domain: string) => {
 };
 
 export const getDomainResponse = async (domain: string) => {
+	if (!isValidDomain(domain)) {
+		throw new Error("Invalid domain format");
+	}
 	const response = await fetch(
 		`https://api.vercel.com/v9/projects/${
 			process.env.VERCEL_PROJECT_ID
@@ -33,6 +45,9 @@ export const getDomainResponse = async (domain: string) => {
 };
 
 export const verifyDomain = async (domain: string) => {
+	if (!isValidDomain(domain)) {
+		throw new Error("Invalid domain format");
+	}
 	const response = await fetch(
 		`https://api.vercel.com/v9/projects/${
 			process.env.VERCEL_PROJECT_ID
@@ -51,6 +66,9 @@ export const verifyDomain = async (domain: string) => {
 };
 
 export const addDomain = async (domain: string) => {
+	if (!isValidDomain(domain)) {
+		throw new Error("Invalid domain format");
+	}
 	const response = await fetch(
 		`https://api.vercel.com/v9/projects/${process.env.VERCEL_PROJECT_ID}/domains?teamId=${process.env.VERCEL_TEAM_ID}`,
 		{
@@ -68,6 +86,9 @@ export const addDomain = async (domain: string) => {
 };
 
 export const getRequiredConfig = async (domain: string) => {
+	if (!isValidDomain(domain)) {
+		throw new Error("Invalid domain format");
+	}
 	// First try to get the records directly
 	try {
 		const recordsResponse = await fetch(
