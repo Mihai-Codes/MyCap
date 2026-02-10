@@ -29,7 +29,8 @@ export async function generateAiMetadata(
 
 	if (videoQuery.length === 0 || !videoQuery[0]?.video) {
 		console.error(
-			`[generateAiMetadata] Video ${videoId} not found in database`,
+			"[generateAiMetadata] Video not found in database:",
+			videoId,
 		);
 		return;
 	}
@@ -106,14 +107,15 @@ export async function generateAiMetadata(
 			.where(eq(videos.id, videoId));
 
 		if (query.length === 0 || !query[0]) {
-			console.error(`[generateAiMetadata] Video data not found for ${videoId}`);
+			console.error("[generateAiMetadata] Video data not found for:", videoId);
 			throw new Error(`Video data not found for ${videoId}`);
 		}
 
 		const row = query[0];
 		if (!row || !row.video) {
 			console.error(
-				`[generateAiMetadata] Video record not found for ${videoId}`,
+				"[generateAiMetadata] Video record not found for:",
+				videoId,
 			);
 			throw new Error(`Video record not found for ${videoId}`);
 		}
@@ -280,7 +282,7 @@ ${transcriptText}`;
 				.where(eq(videos.id, videoId));
 		}
 	} catch (error) {
-		console.error(`[generateAiMetadata] Error for video ${videoId}:`, error);
+		console.error("[generateAiMetadata] Error for video:", videoId, error);
 
 		try {
 			const currentVideo = await db()

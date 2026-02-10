@@ -47,12 +47,14 @@ export async function getVideoStatus(
 
 	if (!video.transcriptionStatus) {
 		console.log(
-			`[Get Status] Transcription not started for video ${videoId}, triggering transcription`,
+			"[Get Status] Transcription not started for video, triggering transcription:",
+			videoId,
 		);
 		try {
 			transcribeVideo(videoId, video.ownerId).catch((error) => {
 				console.error(
-					`[Get Status] Error starting transcription for video ${videoId}:`,
+					"[Get Status] Error starting transcription for video:",
+					videoId,
 					error,
 				);
 			});
@@ -67,7 +69,8 @@ export async function getVideoStatus(
 			};
 		} catch (error) {
 			console.error(
-				`[Get Status] Error triggering transcription for video ${videoId}:`,
+				"[Get Status] Error triggering transcription for video:",
+				videoId,
 				error,
 			);
 			return {
@@ -164,21 +167,24 @@ export async function getVideoStatus(
 			(await isAiGenerationEnabled(videoOwnerQuery[0]))
 		) {
 			console.log(
-				`[Get Status] Feature flag enabled, triggering AI generation for video ${videoId}`,
+				"[Get Status] Feature flag enabled, triggering AI generation for video:",
+				videoId,
 			);
 
 			(async () => {
 				try {
 					console.log(
-						`[Get Status] Starting AI metadata generation for video ${videoId}`,
+						"[Get Status] Starting AI metadata generation for video:",
+						videoId,
 					);
 					await generateAiMetadata(videoId, video.ownerId);
 					console.log(
-						`[Get Status] AI metadata generation completed for video ${videoId}`,
+						"[Get Status] AI metadata generation completed for video:",
+						videoId,
 					);
 				} catch (error) {
 					console.error(
-						"[Get Status] Error generating AI metadata for video %s",
+						"[Get Status] Error generating AI metadata for video:",
 						videoId,
 						error,
 					);
@@ -203,7 +209,7 @@ export async function getVideoStatus(
 						}
 					} catch (resetError) {
 						console.error(
-							`[Get Status] Failed to reset AI processing flag for video %s`,
+							"[Get Status] Failed to reset AI processing flag for video:",
 							videoId,
 							resetError,
 						);
