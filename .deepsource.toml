@@ -42,3 +42,5 @@ pattern = "patches/**"
 
 [[exclude_patterns]]
 pattern = "licenses/**"
+
+# Trigger DeepSource re-analysis
