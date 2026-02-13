@@ -1,0 +1,44 @@
+version = 1
+
+[[analyzers]]
+name = "rust"
+enabled = true
+
+[[analyzers]]
+name = "javascript"
+enabled = true
+
+  [analyzers.meta]
+  plugins = ["typescript"]
+  environment = ["nodejs"]
+  dialect = "typescript"
+
+[[exclude_patterns]]
+pattern = "node_modules/**"
+
+[[exclude_patterns]]
+pattern = "target/**"
+
+[[exclude_patterns]]
+pattern = "dist/**"
+
+[[exclude_patterns]]
+pattern = "coverage/**"
+
+[[exclude_patterns]]
+pattern = ".turbo/**"
+
+[[exclude_patterns]]
+pattern = "apps/**/node_modules/**"
+
+[[exclude_patterns]]
+pattern = "packages/**/node_modules/**"
+
+[[exclude_patterns]]
+pattern = "crates/**/target/**"
+
+[[exclude_patterns]]
+pattern = "patches/**"
+
+[[exclude_patterns]]
+pattern = "licenses/**"
